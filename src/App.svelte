@@ -6,7 +6,7 @@
 
   let theme: ThemeService = DI().get(ThemeService);
 
-  let themes = theme.availableThemes();
+  // let themes = theme.availableThemes();
   theme.setTheme("dark");
 </script>
 

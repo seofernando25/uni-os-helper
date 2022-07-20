@@ -6,8 +6,7 @@
     "lib": ["ES6", "DOM"],
     "types": ["reflect-metadata"],
     "module": "ESNext",
-    "target": "ES6",
-    "moduleResolution": "node",
+    "target": "ESNext",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     //
@@ -17,13 +16,12 @@
       "@assets/*": ["src/assets/*"]
     },
     "resolveJsonModule": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "allowJs": true,
     "checkJs": true,
     "isolatedModules": true
   },
   "include": [
-    "vite.config.ts",
     "src/**/*.d.ts",
     "src/**/*.ts",
     "src/**/*.js",

@@ -2,7 +2,6 @@
   import Fa from "svelte-fa";
   import {
     faArrowRight,
-    faArrowUp,
     faCheck,
     faCircle,
     faXmark,
@@ -249,7 +248,7 @@
       <tbody>
         {#each pages
           .filter((page) => page.frameI > -1)
-          .sort((a, b) => a.frameI - b.frameI) as page, index (page.id)}
+          .sort((a, b) => a.frameI - b.frameI) as page (page.id)}
           <tr class:active={page.id == curStep}>
             <td>
               {#if page.id == curStep}

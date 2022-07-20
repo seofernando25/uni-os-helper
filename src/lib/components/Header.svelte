@@ -1,15 +1,6 @@
 <script lang="ts">
   import Fa from "svelte-fa";
-  import {
-    faCog,
-    faLink,
-    faChainBroken,
-    faSun,
-    faMoon,
-    faDatabase,
-    faCode,
-    faHouse,
-  } from "@fortawesome/free-solid-svg-icons";
+  import { faHouse } from "@fortawesome/free-solid-svg-icons";
 </script>
 
 <header>

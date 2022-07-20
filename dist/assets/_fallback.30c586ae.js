@@ -1,3 +1,3 @@
-import{S as h,i as v,s as _,e as u,a as g,t as d,b as r,c as x,d as s,n as m,f as $,g as k,u as C}from"./index.02c4197d.js";function S(i){let t,a,n,e,b,o,p,c;return{c(){t=u("div"),a=u("button"),a.textContent="Test",n=g(),e=u("div"),b=d(`Page not found.
+import{S as h,i as v,s as _,e as u,a as g,t as d,b as r,c as x,d as s,n as m,f as $,g as k,u as C}from"./index.295e0dfe.js";function S(i){let t,a,n,e,b,o,p,c;return{c(){t=u("div"),a=u("button"),a.textContent="Test",n=g(),e=u("div"),b=d(`Page not found.
     
     `),o=u("a"),p=d("Go back"),r(a,"class","btn btn-sm btn-ghost btn-outline"),r(o,"href",c=i[0]("../")),r(e,"class","big"),r(t,"class","")},m(l,f){x(l,t,f),s(t,a),s(t,n),s(t,e),s(e,b),s(e,o),s(o,p)},p(l,[f]){f&1&&c!==(c=l[0]("../"))&&r(o,"href",c)},i:m,o:m,d(l){l&&$(t)}}}function q(i,t,a){let n;return k(i,C,e=>a(0,n=e)),[n]}class G extends h{constructor(t){super(),v(this,t,q,S,_,{})}}export{G as default};

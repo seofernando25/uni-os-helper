@@ -8,6 +8,7 @@ const dir = path.dirname(file).replace(/\\+/, "/");
 
 export default defineConfig({
   plugins: [svelte()],
+  base: "./",
   resolve: {
     alias: {
       "@lib": `${path.resolve(dir, "src/lib/")}`,
