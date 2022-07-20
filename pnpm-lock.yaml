@@ -21,7 +21,8 @@ specifiers:
   tailwindcss: ^3.1.6
   tslib: ^2.3.1
   typescript: ^4.7.4
-  vite: ^3.0.0
+  vite: ^3.0.2
+  vite-plugin-singlefile: ^0.10.0
 
 devDependencies:
   '@fortawesome/free-solid-svg-icons': 6.1.1
@@ -45,6 +46,7 @@ devDependencies:
   tslib: 2.4.0
   typescript: 4.7.4
   vite: 3.0.2
+  vite-plugin-singlefile: 0.10.0_vite@3.0.2
 
 packages:
 
@@ -2381,6 +2383,15 @@ packages:
     dependencies:
       spdx-correct: 3.1.1
       spdx-expression-parse: 3.0.1
+    dev: true
+
+  /vite-plugin-singlefile/0.10.0_vite@3.0.2:
+    resolution: {integrity: sha512-ZUpIqP+cqhOokuZUqiWDSHWyuhWlHX8movtQlFm0Rer/CfpZ8OqyVwCJvzQ9GLiV5f8sfjpdgDPgXdZnNORRpQ==}
+    peerDependencies:
+      vite: ^2.9.13
+    dependencies:
+      micromatch: 4.0.5
+      vite: 3.0.2
     dev: true
 
   /vite/3.0.2:
