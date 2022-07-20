@@ -1,5 +1,8 @@
 <script>
   import { url } from "@roxi/routify";
+
+  // Redirect to /
+  window.location.href = "/";
 </script>
 
 <div class="">
