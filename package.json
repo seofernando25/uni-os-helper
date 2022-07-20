@@ -37,5 +37,12 @@
     "typescript": "^4.7.4",
     "vite": "^3.0.2",
     "vite-plugin-singlefile": "^0.10.0"
+  },
+  "routify": {
+    "singleBuild": true,
+    "dynamicImports": false
+  },
+  "dependencies": {
+    "vite-plugin-css-injected-by-js": "^1.5.1"
   }
 }

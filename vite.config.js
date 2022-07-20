@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
+import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
 
 import path from "path";
 import { fileURLToPath } from "url";
@@ -7,8 +8,9 @@ const file = fileURLToPath(import.meta.url);
 const dir = path.dirname(file).replace(/\\+/, "/");
 
 export default defineConfig({
-  plugins: [svelte()],
+  plugins: [svelte(), cssInjectedByJsPlugin()],
   base: "/uni-os-helper/",
+
   resolve: {
     alias: {
       "@lib": `${path.resolve(dir, "src/lib/")}`,
@@ -17,8 +19,12 @@ export default defineConfig({
     },
   },
   build: {
-    extractCSS: true,
-    outDir: "dist",
-    assetsDir: "./",
+    rollupOptions: {
+      output: {
+        entryFileNames: `[name].js`,
+        chunkFileNames: `[name].js`,
+        assetFileNames: `[name].[ext]`,
+      },
+    },
   },
 });
