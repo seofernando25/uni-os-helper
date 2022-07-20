@@ -5,8 +5,8 @@
 
     "lib": ["ES6", "DOM"],
     "types": ["reflect-metadata"],
-    "module": "ES6",
-    "target": "ES6",
+    "module": "ESNext",
+    "target": "ESNext",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     //
