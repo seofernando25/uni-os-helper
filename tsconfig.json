@@ -5,8 +5,8 @@
 
     "lib": ["ES6", "DOM"],
     "types": ["reflect-metadata"],
-    "module": "ESNext",
-    "target": "ESNext",
+    "module": "ES6",
+    "target": "ES6",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     //
@@ -21,11 +21,5 @@
     "checkJs": true,
     "isolatedModules": true
   },
-  "include": [
-    "src/**/*.d.ts",
-    "src/**/*.ts",
-    "src/**/*.js",
-    "src/**/*.svelte",
-    "src/lib/themesList.cjs"
-  ]
+  "include": ["src/**/*.d.{ts,ts,svelte}"]
 }
