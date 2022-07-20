@@ -9,7 +9,6 @@ const dir = path.dirname(file).replace(/\\+/, "/");
 
 export default defineConfig({
   plugins: [svelte(), cssInjectedByJsPlugin()],
-  base: "/uni-os-helper/",
 
   resolve: {
     alias: {
