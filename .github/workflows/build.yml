@@ -1,9 +1,9 @@
 name: Build and Deploy website
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
-  workflow_dispatch:
 
 permissions:
   contents: write
