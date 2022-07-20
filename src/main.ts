@@ -1,6 +1,6 @@
 import 'reflect-metadata'
 import { Container } from 'inversify';
-import { autoProvide, buildProviderModule } from 'inversify-binding-decorators';
+import { buildProviderModule } from 'inversify-binding-decorators';
 
 import "./app.css";
 import HMR from "@roxi/routify/hmr";
