@@ -9,7 +9,7 @@
   <p>
     I've been having a bad time solving boring and time taking questions in my
     Operating Systems class so I decided to put together a set of tools to help
-    me save time me (and hopefully you too!)
+    me save some time (and hopefully you too!)
   </p>
   <p>Tools:</p>
   <ul>
