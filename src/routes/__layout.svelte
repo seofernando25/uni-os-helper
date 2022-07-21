@@ -5,13 +5,11 @@
 
   import Header from "$lib/components/Header.svelte";
 
-  import { DI } from "$lib/di";
+  import { DI, setDI } from "$lib/di";
   import { ThemeService } from "$lib/services/ThemeService";
+  import { buildProviderModule } from "inversify-binding-decorators";
 
-  // let themes = theme.availableThemes();
-  let theme: ThemeService = DI().get(ThemeService);
-  console.log(theme);
-  theme.setTheme("dark");
+  setDI(buildProviderModule());
 </script>
 
 <div class="wrapper">

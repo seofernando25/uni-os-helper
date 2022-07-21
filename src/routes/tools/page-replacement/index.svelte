@@ -35,7 +35,6 @@
 
   $: {
     faultHistory = [];
-    console.log(selectedSolver);
     let selected = solvers.find(([name, _]) => name === selectedSolver);
     if (selected) {
       updatePage(referenceString, frameSize, selected[1]);
