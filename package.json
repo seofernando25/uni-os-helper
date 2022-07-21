@@ -2,9 +2,6 @@
   "name": "uni-os-helper",
   "version": "0.0.1",
   "type": "module",
-  "engines": {
-    "node": ">=16.0.0 <17.0.0"
-  },
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
