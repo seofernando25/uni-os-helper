@@ -1,7 +1,3 @@
-<script lang="ts">
-  // import routing info
-</script>
-
 <!-- Big text saying tools -->
 <div class="prose prose-2xl max-w-4sxl">
   <h3>Hello 👋👀</h3>

@@ -13,11 +13,3 @@ module.exports = {
     darkTheme: "dark",
   },
 };
-
-// import("./src/lib/themesList.js")
-//   .then(({ themes }) => {
-//     module.exports.daisyui.themes = themes;
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//   });
