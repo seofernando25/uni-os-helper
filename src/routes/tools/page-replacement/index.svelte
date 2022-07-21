@@ -1,27 +1,19 @@
 <script lang="ts">
-  import Fa from "svelte-fa";
-  import {
-    faArrowRight,
-    faCheck,
-    faCircle,
-    faXmark,
-  } from "@fortawesome/free-solid-svg-icons";
-  import { LRUReplacement } from "@lib/pageReplacement/LRUReplacement";
-  import type { Command } from "@lib/pageReplacement/Command";
+  import { LRUReplacement } from "$lib/pageReplacement/LRUReplacement";
+  import type { Command } from "$lib/pageReplacement/Command";
   import type {
     PageReference,
     PageReplacement,
-  } from "@lib/pageReplacement/PageReplacement";
-  import { FIFOReplacement } from "@lib/pageReplacement/FIFOReplacement";
+  } from "$lib/pageReplacement/PageReplacement";
+  import { FIFOReplacement } from "$lib/pageReplacement/FIFOReplacement";
 
-  const isMobile =
-    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent
-    );
-
-  let solvers: [string, (size: number, symbol: any[]) => PageReplacement][] = [
-    ["LRU", (refStr, size) => new LRUReplacement(refStr, size)],
-    ["FIFO", (refStr, size) => new FIFOReplacement(refStr, size)],
+  let solvers: [
+    string,
+    (size: number, symbol: any[]) => PageReplacement,
+    string
+  ][] = [
+    ["LRU", (refStr, size) => new LRUReplacement(refStr, size), "LRU Value"],
+    ["FIFO", (refStr, size) => new FIFOReplacement(refStr, size), ""],
   ];
 
   let selectedSolver = solvers[1][0];
@@ -35,19 +27,20 @@
   let symbolCount: number = 0;
   let desiredStep = -1;
   let curStep = -1;
-  let solverCtor = solvers.find(([name, _]) => name === selectedSolver)[1];
-  updatePage(referenceString, frameSize, solverCtor);
+  updatePage(referenceString, frameSize, solvers[0][1]);
 
-  let currentRowElement: HTMLElement = null;
+  let currentRowElement: HTMLElement | null = null;
 
   // convert refs to array of ints
 
   $: {
     faultHistory = [];
     console.log(selectedSolver);
-    let solverCtor = solvers.find(([name, _]) => name === selectedSolver)[1];
-    updatePage(referenceString, frameSize, solverCtor);
-    symbolCount = new Set(symbols).size;
+    let selected = solvers.find(([name, _]) => name === selectedSolver);
+    if (selected) {
+      updatePage(referenceString, frameSize, selected[1]);
+      symbolCount = new Set(symbols).size;
+    }
   }
 
   function updatePage(
@@ -79,12 +72,12 @@
         curStep--;
       }
       if (currentRowElement) {
-        if (!isMobile) {
-          currentRowElement.scrollIntoView({
-            behavior: "auto",
-            block: "center",
-          });
-        }
+        // if (!isMobile) {
+        //   currentRowElement.scrollIntoView({
+        //     behavior: "auto",
+        //     block: "center",
+        //   });
+        // }
       }
     }
     pages = pages;
@@ -139,12 +132,12 @@
           class="range  "
         />
         <div class="flex justify-between ">
-          <Fa icon={faCircle} class="ml-1" />
+          <i class="fas fa-circle ml-1" />
           {#each faultHistory as fault}
             {#if fault}
-              <Fa icon={faXmark} class="text-error" />
+              <i class="fas fas fa-xmark text-error" />
             {:else}
-              <Fa icon={faCheck} class="text-success" />
+              <i class="fas fa-check text-success" />
             {/if}
           {/each}
         </div>
@@ -164,7 +157,7 @@
     <div class="stats stats-vertical sm:stats-horizontal ">
       <div class="stat shadow text-success">
         <div class="stat-figure">
-          <Fa icon={faCheck} scale="3" />
+          <i class="fas fa-check fa-xl" />
         </div>
         <div class="stat-title ">Hit Rate</div>
         <div class="stat-value">
@@ -181,7 +174,7 @@
       <div class=" stat shadow ">
         <div class="stat text-error">
           <div class="stat-figure ">
-            <Fa icon={faXmark} scale="3" />
+            <i class="fas fa-xmark fa-xl" />
           </div>
           <div class="stat-title">Fault Rate</div>
           <div class="stat-value ">
@@ -217,15 +210,15 @@
             <td>
               {#if curStep == index}
                 <span bind:this={currentRowElement}>
-                  <Fa icon={faArrowRight} />
+                  <i class="fas fa-arrow-right" />
                 </span>
               {/if}
             </td>
             <td>
               {#if faultHistory[index]}
-                <Fa icon={faXmark} class="text-error" />
+                <i class="fas fa-xmark text-error" />
               {:else}
-                <Fa icon={faCheck} class="text-success" />
+                <i class="fas fa-check text-success" />
               {/if}
             </td>
             <td>{index}</td>
@@ -241,7 +234,13 @@
         <tr>
           <th>Current</th>
           <th>Frame</th>
-          <th>Extra</th>
+          <th
+            >{(solvers.find((e) => e[0] == selectedSolver) ?? [
+              0,
+              0,
+              "",
+            ])[2]}</th
+          >
           <th>References</th>
         </tr>
       </thead>
@@ -253,7 +252,7 @@
             <td>
               {#if page.id == curStep}
                 <span bind:this={currentRowElement}>
-                  <Fa icon={faArrowRight} />
+                  <i class="fas fa-arrow-right" />
                 </span>
               {/if}
             </td>

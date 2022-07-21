@@ -1,6 +1,6 @@
 import { fluentProvide, provide } from "inversify-binding-decorators";
 import { get, writable, type Subscriber, type Unsubscriber, type Writable } from "svelte/store";
-import { singleton } from "../di-utils";
+import { singleton } from "../di";
 
 
 @singleton(StorageService)

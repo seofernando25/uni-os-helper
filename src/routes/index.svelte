@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { toSpaceCase } from "@lib/utils";
-  import { layout } from "@roxi/routify";
+  // import routing info
 </script>
 
 <!-- Big text saying tools -->
@@ -13,10 +12,9 @@
   </p>
   <p>Tools:</p>
   <ul>
-    {#each $layout.children[0].children as node}
-      <li>
-        <a href={node.path}>{toSpaceCase(node.title)}</a>
-      </li>
-    {/each}
+    <!-- TODO: Get child routes from sveltkit -->
+    <li>
+      <a href="tools/page-replacement">Page Replacement Algorithms</a>
+    </li>
   </ul>
 </div>

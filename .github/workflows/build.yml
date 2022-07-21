@@ -7,19 +7,39 @@ on:
 
 jobs:
   build:
-    name: Build
+    name: Create cache and install
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2.2.2
-        with:
-          version: 7
       - uses: actions/setup-node@v2
         with:
-          node-version: 16.16.0
+          node-version: latest
           cache: "pnpm"
-      - name: Install dependencies
+
+      - name: Setup pnpm
+      - uses: pnpm/action-setup@v2.2.2
+        id: pnpm-install
+        with:
+          version: latest
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        id: pnpm-cache-setup
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - if: ${{ steps.pnpm-cache-setup.outputs.cache-hit == 'false' }}
+        name: Restore pnpm cache (Cache miss)
+        continue-on-error: true
         run: pnpm install
 
       - name: Build
@@ -28,8 +48,8 @@ jobs:
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v3
         with:
-          name: dist
-          path: ./dist
+          name: build
+          path: ./build
 
   deploy:
     name: Deploy
@@ -40,8 +60,8 @@ jobs:
     steps:
       - uses: actions/download-artifact@v3
         with:
-          name: dist
-          path: ./dist
+          name: build
+          path: ./build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

@@ -1,6 +1,6 @@
 import { inject } from "inversify";
 import { get, writable, type Subscriber, type Unsubscriber, type Writable } from "svelte/store";
-import { singleton } from "../di-utils";
+import { singleton } from "../di";
 import StorageService from "./StorageService";
 import { themes } from "../themesList.js";
 

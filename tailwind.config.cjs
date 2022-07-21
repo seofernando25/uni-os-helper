@@ -1,5 +1,6 @@
 module.exports = {
-  content: ["./src/**/*.{svelte,js,ts}"],
+  content: ["./src/**/*.{html,js,svelte,ts}"],
+
   plugins: [require("@tailwindcss/typography"), require("daisyui")],
   daisyui: {
     styled: true,
@@ -13,10 +14,10 @@ module.exports = {
   },
 };
 
-import("./src/lib/themesList.js")
-  .then(({ themes }) => {
-    module.exports.daisyui.themes = themes;
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+// import("./src/lib/themesList.js")
+//   .then(({ themes }) => {
+//     module.exports.daisyui.themes = themes;
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });

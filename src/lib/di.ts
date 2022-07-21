@@ -1,5 +1,5 @@
 import type { Container } from "inversify";
-import { fluentProvide } from "inversify-binding-decorators";
+import { buildProviderModule, fluentProvide } from "inversify-binding-decorators";
 
 export function singleton(identifier: any): ClassDecorator {
     return fluentProvide(identifier)
@@ -8,7 +8,9 @@ export function singleton(identifier: any): ClassDecorator {
 }
 
 
-var container: Container;
+
+
+var container: Container = null;
 
 export function setDI(c: Container): void {
     container = c;
@@ -17,3 +19,4 @@ export function setDI(c: Container): void {
 export function DI(): Container {
     return container;
 }
+
