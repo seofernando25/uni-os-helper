@@ -5,14 +5,9 @@
 
   import Header from "$lib/components/Header.svelte";
 
-  import { Container } from "inversify";
-  import { buildProviderModule } from "inversify-binding-decorators";
-  import { DI, setDI } from "$lib/di";
+  import { DI } from "$lib/di";
   import { ThemeService } from "$lib/services/ThemeService";
 
-  let container = new Container();
-  container.load(buildProviderModule());
-  setDI(container);
   // let themes = theme.availableThemes();
   let theme: ThemeService = DI().get(ThemeService);
   console.log(theme);

@@ -2,20 +2,12 @@
   "extends": "./.svelte-kit/tsconfig.json",
   "compilerOptions": {
     // Inversify
-    "lib": ["ES6", "DOM"],
-    "target": "ES6",
-    "module": "ES6",
     "types": ["reflect-metadata"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
 
-    "resolveJsonModule": true,
-    "allowJs": true,
-    "checkJs": true,
-    "isolatedModules": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
     "sourceMap": true,
     "strict": true
   }
