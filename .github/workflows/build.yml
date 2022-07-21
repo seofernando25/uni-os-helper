@@ -17,9 +17,7 @@ jobs:
           node-version: latest
           cache: "pnpm"
 
-      - name: Setup pnpm
       - uses: pnpm/action-setup@v2.2.2
-        id: pnpm-install
         with:
           version: latest
 
@@ -45,7 +43,7 @@ jobs:
       - name: Build
         run: pnpm build
 
-      - name: Upload production-ready build files
+      - name: Upload build files
         uses: actions/upload-artifact@v3
         with:
           name: build
