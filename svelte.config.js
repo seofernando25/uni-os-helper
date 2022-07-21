@@ -5,7 +5,7 @@ import adapter from "@sveltejs/adapter-static";
 let pathBase = "";
 if (process.env.GITHUB_ACTION) {
   console.log("GITHUB_ACTION detected");
-  pathBase = "uni-os-helper";
+  pathBase = "/uni-os-helper";
 }
 
 export default {
