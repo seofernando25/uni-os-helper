@@ -1,4 +1,4 @@
-import type { Container } from "inversify";
+import { Container } from "inversify";
 import { buildProviderModule, fluentProvide } from "inversify-binding-decorators";
 
 export function singleton(identifier: any): ClassDecorator {
@@ -10,11 +10,8 @@ export function singleton(identifier: any): ClassDecorator {
 
 
 
-var container: Container = null;
-
-export function setDI(c: Container): void {
-    container = c;
-}
+var container: Container = new Container();
+container.load(buildProviderModule());
 
 export function DI(): Container {
     return container;
