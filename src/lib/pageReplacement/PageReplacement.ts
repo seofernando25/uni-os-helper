@@ -27,7 +27,9 @@ export class ReplacementCommand implements Command {
 export class AddCommand implements Command {
   oldFrameI: number;
 
-  constructor(public newPage: PageReference, public frameI: number) {}
+  constructor(public newPage: PageReference, public frameI: number) {
+    this.oldFrameI = newPage.frameI;
+  }
 
   execute() {
     this.newPage.frameI = this.frameI;
@@ -68,7 +70,29 @@ export abstract class PageReplacement {
     this.init();
   }
 
-  protected init() {}
+
+  getFrame(): Map<number, PageReference> {
+    const frame = new Map<number, PageReference>();
+    this.pages
+      .filter((page) => page.frameI > -1)
+      .forEach((page) => {
+        frame.set(page.value, page);
+      });
+    return frame;
+  }
+
+  pageInFrame(page: PageReference): boolean {
+    const frame = this.getFrame();
+
+    return frame.has(page.value)
+  }
+
+  frameHasSpace(): boolean {
+    const frame = this.getFrame();
+    return frame.size < this.nFrames;
+  }
+
+  protected init() { }
 
   public abstract getSteps(): Command[];
 }

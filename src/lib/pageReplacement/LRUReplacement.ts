@@ -22,14 +22,8 @@ export class LRUReplacement extends PageReplacement {
       time++;
       var cmd: Command;
 
-      const frame = new Map<number, PageReference>();
-      this.pages
-        .filter((page) => page.frameI > -1)
-        .forEach((page) => {
-          frame.set(page.value, page);
-        });
-
-      if (frame.has(page.value)) {
+      const frame = this.getFrame();
+      if (this.pageInFrame(page)) {
         cmd = new SetExtraCommand(frame.get(page.value), time);
         cmd.execute();
         steps.push(cmd);
@@ -39,7 +33,7 @@ export class LRUReplacement extends PageReplacement {
       var cmdGroup = new ComandGroup();
 
       // If there are less than nFrames pages in the frame, add the page
-      if (frame.size < this.nFrames) {
+      if (this.frameHasSpace()) {
         cmd = new AddCommand(page, frame.size);
         cmdGroup.commands.push(cmd);
         cmd = new SetExtraCommand(page, time);

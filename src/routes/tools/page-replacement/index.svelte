@@ -6,6 +6,7 @@
     PageReplacement,
   } from "$lib/pageReplacement/PageReplacement";
   import { FIFOReplacement } from "$lib/pageReplacement/FIFOReplacement";
+  import { OPTReplacement } from "$lib/pageReplacement/OPTReplacement";
 
   let solvers: [
     string,
@@ -14,9 +15,14 @@
   ][] = [
     ["LRU", (refStr, size) => new LRUReplacement(refStr, size), "LRU Value"],
     ["FIFO", (refStr, size) => new FIFOReplacement(refStr, size), ""],
+    [
+      "OPT",
+      (refStr, size) => new OPTReplacement(refStr, size),
+      "Next Reference",
+    ],
   ];
 
-  let selectedSolver = solvers[1][0];
+  let selectedSolver = solvers[2][0];
   let referenceString: string = "1 2 3 4 2 1 5 6 2 1 2 3 7 6 3 2 1 2 3 6";
   let frameSize: number = 4;
   let pageReplacement: PageReplacement;
@@ -183,7 +189,7 @@
             ).toFixed(2)}%
           </div>
           <div class="stat-desc">
-            {faultHistory.filter((f) => !f).length}/{faultHistory.length}
+            {faultHistory.filter((f) => f).length}/{faultHistory.length}
           </div>
         </div>
       </div>
