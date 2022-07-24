@@ -1,10 +1,12 @@
 import {
   AddCommand,
   PageReplacement,
-  ReplacementCommand,
   type PageReference,
 } from "./PageReplacement";
-import { ComandGroup, SetExtraCommand, type Command } from "./Command";
+import { ReplacementCommand } from "./ReplacementCommand";
+import { SetExtraCommand } from "./SetExtraCommand";
+import { ComandGroup } from "../common/ComandGroup";
+import type { Command } from "$lib/common/Command";
 
 export class LRUReplacement extends PageReplacement {
   override init() {
@@ -60,7 +62,6 @@ export class LRUReplacement extends PageReplacement {
     });
 
     // Undo everything
-    let frame = this.pages.filter((p) => p.frameI);
     steps.reverse().forEach((step) => step.undo());
     return steps.reverse();
   }

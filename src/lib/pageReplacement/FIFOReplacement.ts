@@ -1,10 +1,10 @@
 import {
   AddCommand,
   PageReplacement,
-  ReplacementCommand,
-  type PageReference,
 } from "./PageReplacement";
-import { ComandGroup, SetExtraCommand, type Command } from "./Command";
+import { ReplacementCommand } from "./ReplacementCommand";
+import { ComandGroup } from "../common/ComandGroup";
+import type { Command } from "$lib/common/Command";
 
 export class FIFOReplacement extends PageReplacement {
   getSteps(): Command[] {

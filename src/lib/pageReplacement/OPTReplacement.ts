@@ -1,10 +1,12 @@
 import {
     AddCommand,
     PageReplacement,
-    ReplacementCommand,
     type PageReference,
 } from "./PageReplacement";
-import { ComandGroup, SetExtraCommand, type Command } from "./Command";
+import { ReplacementCommand } from "./ReplacementCommand";
+import { SetExtraCommand } from "./SetExtraCommand";
+import { ComandGroup } from "../common/ComandGroup";
+import type { Command } from "$lib/common/Command";
 
 export class OPTReplacement extends PageReplacement {
     override init() {
@@ -53,7 +55,6 @@ export class OPTReplacement extends PageReplacement {
             }
 
             if (this.frameHasSpace()) {
-                console.log("frame has space");
                 cmdGroup.commands.push(new AddCommand(page, frame.size));
                 let distance = this.nextReplacementDistance(i + 1, page);
                 cmdGroup.commands.push(new SetExtraCommand(page, distance));

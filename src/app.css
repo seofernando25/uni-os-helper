@@ -8,3 +8,12 @@ html {
   margin: 0px auto;
   padding: 0px auto;
 }
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-accent;
+  @apply rounded;
+}

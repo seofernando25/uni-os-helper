@@ -1,6 +1,5 @@
 <script lang="ts">
   import { LRUReplacement } from "$lib/pageReplacement/LRUReplacement";
-  import type { Command } from "$lib/pageReplacement/Command";
   import type {
     PageReference,
     PageReplacement,

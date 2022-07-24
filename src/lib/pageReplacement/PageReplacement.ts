@@ -1,28 +1,4 @@
-import type { Command } from "./Command";
-
-export class ReplacementCommand implements Command {
-  oldFrameI: number;
-  newPageI: number;
-
-  constructor(
-    public oldPage: PageReference,
-    public newPage: PageReference,
-    public frameI: number
-  ) {
-    this.oldFrameI = oldPage.frameI;
-    this.newPageI = newPage.frameI;
-  }
-
-  execute() {
-    this.oldPage.frameI = this.newPageI;
-    this.newPage.frameI = this.frameI;
-  }
-
-  undo() {
-    this.oldPage.frameI = this.oldFrameI;
-    this.newPage.frameI = this.newPageI;
-  }
-}
+import type { Command } from "$lib/common/Command";
 
 export class AddCommand implements Command {
   oldFrameI: number;
