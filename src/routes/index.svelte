@@ -8,9 +8,11 @@
   </p>
   <p>Tools:</p>
   <ul>
-    <!-- TODO: Get child routes from sveltkit -->
     <li>
-      <a href="tools/page-replacement">Page Replacement Algorithms</a>
+      <a href="tools/page-replacement">Page Replacement</a>
+    </li>
+    <li>
+      <a href="tools/scheduling">Process Scheduling</a>
     </li>
   </ul>
 </div>
