@@ -5,28 +5,40 @@
   import type { Scheduler } from "$lib/scheduling/Scheduler";
   import { FCFSScheduler } from "$lib/scheduling/FCFSScheduler";
   import { TimeTable } from "$lib/scheduling/TimeTable";
+  import { SJFScheduler } from "$lib/scheduling/SJFScheduler";
+  import { SRTFScheduler } from "$lib/scheduling/SRTFScheduler";
 
   let colorHash: ColorHash = new ColorHash();
   let solvers: any[] = [
     ["FCFS", (processes: Process[]) => new FCFSScheduler(processes)],
+    ["SJF", (processes: Process[]) => new SJFScheduler(processes)],
+    ["SRTF", (processes: Process[]) => new SRTFScheduler(processes)],
   ];
 
-  let selectedSolver = solvers[0][0];
+  let selectedSolver = solvers[2][0];
 
   let totalProcessingTime = 2;
   let uidPIDMapper: Map<number, number> = new Map();
   let processes: Process[] = [];
   let desiredStep = 999;
   //   Create dummy processes
-  let uid = 0;
+  let uid = 1;
 
-  processes.push(new Process(uid++, 0, 1, 0));
+  processes.push(new Process(uid++, 3, 1, 0));
+  processes.push(new Process(uid++, 1, 4, 0));
+  processes.push(new Process(uid++, 4, 2, 0));
+  processes.push(new Process(uid++, 0, 6, 0));
+  processes.push(new Process(uid++, 2, 3, 0));
   // processes.push(new Process(uid++, 5, 1, 0));
 
   let solver = new FCFSScheduler(processes);
   let timetable = solver.getTimeTable();
   totalProcessingTime = solver.totalProcessingTime;
-  addProcess();
+  timetable = TimeTable.fillGaps(timetable, solver.originalTotalProcessingTime);
+  let sorted = processes.sort((a, b) => a.arrivalTime - b.arrivalTime);
+  for (let i = 0; i < sorted.length; i++) {
+    uidPIDMapper.set(sorted[i].uid, i + 1);
+  }
 
   function addProcess() {
     // Get the latest arrival time
@@ -48,7 +60,9 @@
       uidPIDMapper.set(sorted[i].uid, i + 1);
     }
 
-    solver = new FCFSScheduler(sorted);
+    solver = solvers.find(([name, solver]) => name === selectedSolver)[1](
+      sorted
+    );
     totalProcessingTime = solver.totalProcessingTime;
 
     onChange();
@@ -56,12 +70,9 @@
   }
 
   function onChange() {
-    // for (let i = 0; i < sorted.length; i++) {
-    //   sorted[i].finishTime = 0;
-    //   sorted[i].waitingTime = 0;
-    //   sorted[i].turnaroundTime = 0;
-    // }
-    solver = new FCFSScheduler(processes);
+    solver = solvers.find(([name, solver]) => name === selectedSolver)[1](
+      processes
+    );
     timetable = solver.getTimeTable(desiredStep);
     timetable = TimeTable.fillGaps(
       timetable,
@@ -72,6 +83,7 @@
   }
 
   $: {
+    selectedSolver;
     desiredStep;
     onChange();
   }
@@ -84,7 +96,7 @@
       <span>Solver</span>
       <select bind:value={selectedSolver} class="select select-bordered flex-1">
         {#each solvers as solver}
-          <option>{solvers[0][0]}</option>
+          <option>{solver[0]}</option>
         {/each}
       </select>
     </label>
