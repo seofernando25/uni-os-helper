@@ -77,166 +77,184 @@
   }
 </script>
 
-<label class="input-group input-group-vertical">
-  <span>Solver</span>
-  <select bind:value={selectedSolver} class="select select-bordered ">
-    {#each solvers as solver}
-      <option>{solvers[0][0]}</option>
-    {/each}
-  </select>
-</label>
+<div class="flex  flex-wrap gap-x-4 gap-y-4">
+  <!-- Solver picker, steps, buttons -->
+  <div class="flex flex-1 flex-col items-start gap-8">
+    <label class="input-group ">
+      <span>Solver</span>
+      <select bind:value={selectedSolver} class="select select-bordered flex-1">
+        {#each solvers as solver}
+          <option>{solvers[0][0]}</option>
+        {/each}
+      </select>
+    </label>
 
-<div class="w-full grid gap-4">
-  <button class="btn btn-accent btn-wide m-4" on:click={addProcess}>
-    Add Process
-  </button>
+    <label class="input-group flex-1 w-86">
+      <span>Steps</span>
+      <input
+        id="desiredStep"
+        bind:value={desiredStep}
+        type="range"
+        min="0"
+        max={totalProcessingTime}
+        class="range flex-1"
+      />
+    </label>
 
-  <label for="stepsRange"
-    >Steps:
+    <button
+      class="w-full btn btn-accent mb-4 ml-4 flex-1"
+      on:click={addProcess}
+    >
+      Add Process
+    </button>
+  </div>
 
-    <input
-      id="stepsRange"
-      bind:value={desiredStep}
-      type="range"
-      min="0"
-      max={totalProcessingTime}
-      class="range"
-    />
-
-    <div class="flex justify-around m-4 ">
-      <div class="card w-96 h-96 bg-base-100 shadow-xl">
-        <div class="card-body">
-          <h2 class="card-title">Arriving</h2>
-          <div class="flex flex-wrap">
-            {#each processes.filter((proc) => proc.arrivalTime > desiredStep) as q}
-              <div class="btn">
-                {uidPIDMapper.get(q.uid) ?? "?"}
-              </div>
-            {/each}
-          </div>
-        </div>
-      </div>
-      <div class="card w-96 h-96 bg-base-100 shadow-xl">
-        <div class="card-body">
-          <h2 class="card-title">Ready Queue</h2>
-          <div class="flex flex-wrap">
-            {#each solver.readyQueue as q}
-              <div class="btn">
-                {q.uid}
-              </div>
-            {/each}
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Solver current queue -->
-
-    <!-- Chart -->
-    <div class="flex w-full min-h-36 h-40">
-      {#each timetable as t, index}
-        {#if t.uid == -1}
-          <div class="flex-1 grid bg-neutral" style="flex: {t.end - t.start}" />
-        {:else}
-          <div class="flex-1 " style="flex: {t.end - t.start}">
-            <span class="bg-neutral grid justify-center"
-              >{uidPIDMapper.get(t.uid) ?? "?"}</span
-            >
-            <div
-              style="background: {colorHash.hex(t.uid.toString())};"
-              class="h-32 flex justify-between items-end"
-            >
-              <span class="btn btn-sm -translate-x-4">{t.start}</span>
-              <span class="btn btn-sm translate-x-4">{t.end}</span>
+  <!-- Arriving / Ready queues -->
+  <div class="flex flex-1  m-4 flex-wrap gap-8">
+    <div class="flex-1 card max-h-64 bg-base-100 shadow-xl">
+      <div class="card-body">
+        <h2 class="card-title">Arriving</h2>
+        <div class="flex flex-wrap">
+          {#each processes.filter((proc) => proc.arrivalTime > desiredStep) as q}
+            <div class="btn btn-sm">
+              {uidPIDMapper.get(q.uid) ?? "?"}
             </div>
-          </div>
-        {/if}
-      {/each}
-    </div>
-
-    <!-- Html table with -->
-    <!-- ProcessID, Arrival Time, Burst Time, Priority -->
-
-    <div class="overflow-auto overflow-y-hidden">
-      <table class="table w-full ">
-        <thead>
-          <tr>
-            <th>P ID</th>
-            <th>Arrival Time</th>
-            <th>Burst Time</th>
-            <th>Priority</th>
-            <th>Finish Time</th>
-            <th>Turnaround Time</th>
-            <th>Waiting Time</th>
-            <th />
-          </tr>
-        </thead>
-        <tbody>
-          {#each processes.sort((a, b) => a.arrivalTime - b.arrivalTime) as process, index (process.uid)}
-            <tr animate:flip={{ duration: 100 }}>
-              <td>P{uidPIDMapper.get(process.uid) ?? "?"}</td>
-              <td>
-                <input
-                  type="number"
-                  placeholder="0"
-                  value={process.arrivalTime}
-                  on:change={(e) => {
-                    e.preventDefault();
-                    process.arrivalTime = parseInt(e.target.value);
-                    onChange();
-                  }}
-                  class="input input-accent"
-                />
-              </td>
-
-              <td>
-                <input
-                  type="number"
-                  placeholder="0"
-                  value={process.burstTime}
-                  on:change={(e) => {
-                    e.preventDefault();
-                    process.burstTime = parseInt(e.target.value);
-                    onChange();
-                  }}
-                  class="input input-accent"
-                />
-              </td>
-              <td>
-                <input
-                  type="number"
-                  placeholder="0"
-                  value={process.priority}
-                  on:change={(e) => {
-                    e.preventDefault();
-                    process.priority = parseInt(e.target.value);
-                    onChange();
-                  }}
-                  class="input input-accent"
-                />
-              </td>
-              <td>{process.finishTime}</td>
-              <td>{process.turnaroundTime}</td>
-              <td>{process.waitingTime}</td>
-              <!-- Delete button -->
-              <td>
-                <button
-                  class="btn btn-error btn-outline w-full"
-                  on:click={() => {
-                    processes.splice(index, 1);
-                    processes = processes;
-                    solver = new FCFSScheduler(processes);
-                    totalProcessingTime = solver.totalProcessingTime;
-                    onChange();
-                  }}
-                >
-                  <i class="fa fa-trash text-error" />
-                </button>
-              </td>
-            </tr>
           {/each}
-        </tbody>
-      </table>
+        </div>
+      </div>
     </div>
-  </label>
+    <div class="flex-1 max-h-64 card bg-base-100 shadow-xl">
+      <div class="card-body">
+        <h2 class="card-title">Ready Queue</h2>
+        <div class="flex flex-wrap">
+          {#each solver.readyQueue as q}
+            <div class="btn btn-sm">
+              {q.uid}
+            </div>
+          {/each}
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<!-- Solver current queue -->
+<div>
+  <!-- Chart -->
+  <div class="flex w-full min-h-40 flex-wrap">
+    {#each timetable as t, index}
+      {#if t.uid == -1}
+        <div class="flex-1 grid bg-neutral" style="flex: {t.end - t.start}" />
+      {:else}
+        <div class="flex-1 " style="flex: {t.end - t.start}">
+          <span class="bg-neutral grid justify-center"
+            >{uidPIDMapper.get(t.uid) ?? "?"}</span
+          >
+          <div
+            style="background: {colorHash.hex(t.uid.toString())};"
+            class="h-32 flex justify-between items-end"
+          >
+            <span class="btn btn-sm -translate-x-4">{t.start}</span>
+            <span class="btn btn-sm translate-x-4">{t.end}</span>
+          </div>
+        </div>
+      {/if}
+    {/each}
+  </div>
+
+  <!-- Html table with -->
+  <!-- ProcessID, Arrival Time, Burst Time, Priority -->
+
+  <div class="overflow-auto overflow-y-hidden">
+    <table class="table table-compact w-full ">
+      <thead>
+        <tr>
+          <th>P ID</th>
+          <th>Arrival T</th>
+          <th>Burst T</th>
+          <th>Priority</th>
+          <th>Finish T</th>
+          <th>Turnaround T</th>
+          <th>Waiting T</th>
+          <th />
+        </tr>
+      </thead>
+      <tbody>
+        {#each processes.sort((a, b) => a.arrivalTime - b.arrivalTime) as process, index (process.uid)}
+          <tr animate:flip={{ duration: 100 }}>
+            <td>P{uidPIDMapper.get(process.uid) ?? "?"}</td>
+            <td>
+              <input
+                type="number"
+                placeholder="0"
+                value={process.arrivalTime}
+                on:change={(e) => {
+                  e.preventDefault();
+                  process.arrivalTime = parseInt(e.target.value);
+                  onChange();
+                }}
+                class="input input-accent"
+              />
+            </td>
+
+            <td>
+              <input
+                type="number"
+                placeholder="0"
+                value={process.burstTime}
+                on:change={(e) => {
+                  e.preventDefault();
+                  process.burstTime = parseInt(e.target.value);
+                  onChange();
+                }}
+                class="input input-accent"
+              />
+            </td>
+            <td>
+              <input
+                type="number"
+                placeholder="0"
+                value={process.priority}
+                on:change={(e) => {
+                  e.preventDefault();
+                  process.priority = parseInt(e.target.value);
+                  onChange();
+                }}
+                class="input input-accent"
+              />
+            </td>
+            <td>{process.finishTime}</td>
+            <td>{process.turnaroundTime}</td>
+            <td>{process.waitingTime}</td>
+            <!-- Delete button -->
+            <td>
+              <button
+                class="btn btn-error btn-outline w-full"
+                on:click={() => {
+                  processes.splice(index, 1);
+                  processes = processes;
+                  solver = new FCFSScheduler(processes);
+                  totalProcessingTime = solver.totalProcessingTime;
+                  onChange();
+                }}
+              >
+                <i class="fa fa-trash text-error" />
+              </button>
+            </td>
+          </tr>
+        {/each}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<style>
+  td > input {
+    width: 100%;
+  }
+
+  * {
+    word-wrap: break-word; /*old browsers*/
+    overflow-wrap: break-word;
+  }
+</style>
