@@ -7,15 +7,23 @@
   import { TimeTable } from "$lib/scheduling/TimeTable";
   import { SJFScheduler } from "$lib/scheduling/SJFScheduler";
   import { SRTFScheduler } from "$lib/scheduling/SRTFScheduler";
+  import { RRScheduler } from "$lib/scheduling/RRScheduler";
 
   let colorHash: ColorHash = new ColorHash();
   let solvers: any[] = [
     ["FCFS", (processes: Process[]) => new FCFSScheduler(processes)],
-    ["SJF", (processes: Process[]) => new SJFScheduler(processes)],
-    ["SRTF", (processes: Process[]) => new SRTFScheduler(processes)],
+    [
+      "SJF  (Non Preemptive)",
+      (processes: Process[]) => new SJFScheduler(processes),
+    ],
+    [
+      "SRTF (AKA Preemptive SJF)",
+      (processes: Process[]) => new SRTFScheduler(processes),
+    ],
+    ["RR", (processes: Process[]) => new RRScheduler(processes, 2)],
   ];
 
-  let selectedSolver = solvers[2][0];
+  let selectedSolver = solvers[3][0];
 
   let totalProcessingTime = 2;
   let uidPIDMapper: Map<number, number> = new Map();
@@ -24,11 +32,11 @@
   //   Create dummy processes
   let uid = 1;
 
-  processes.push(new Process(uid++, 3, 1, 0));
-  processes.push(new Process(uid++, 1, 4, 0));
+  processes.push(new Process(uid++, 0, 10, 2));
+  processes.push(new Process(uid++, 3, 3, 1));
   processes.push(new Process(uid++, 4, 2, 0));
-  processes.push(new Process(uid++, 0, 6, 0));
-  processes.push(new Process(uid++, 2, 3, 0));
+  processes.push(new Process(uid++, 5, 3, 0));
+  processes.push(new Process(uid++, 6, 5, 1));
   // processes.push(new Process(uid++, 5, 1, 0));
 
   let solver = new FCFSScheduler(processes);
