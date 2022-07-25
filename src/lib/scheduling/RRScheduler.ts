@@ -15,7 +15,6 @@ export class RRScheduler extends Scheduler {
         if (this.processes.length === 0) {
             return [];
         };
-        console.log("#############")
 
         // Sort by lowest priority number
         this.processes.sort((a, b) =>
@@ -39,8 +38,8 @@ export class RRScheduler extends Scheduler {
 
 
             if (nSkips > procs.length) {
-                console.log("Skipping all processes");
-                console.log("t", t);
+                // console.log("Skipping all processes");
+                // console.log("t", t);
                 console.log(procs);
                 t++;
                 nSkips = 0;
@@ -50,7 +49,7 @@ export class RRScheduler extends Scheduler {
             // Check if everything is done
             let done = procs.every((p) => p.remainingTime <= 0);
             if (done) {
-                console.log("Done");
+                // console.log("Done");
                 break;
             }
 
@@ -91,7 +90,7 @@ export class RRScheduler extends Scheduler {
             }
 
             if (quantum_left <= 0 || curProc.remainingTime <= 0) {
-                console.log("Quantum ended");
+                // console.log("Quantum ended");
                 quantum_left = this.quantum;
                 pointed = (pointed + 1) % procs.length;
             }
